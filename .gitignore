@@ -6,3 +6,5 @@ node_modules
 *.m4a
 
 .vscode
+
+__pycache__
