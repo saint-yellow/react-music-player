@@ -2,16 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import * as Icon from "react-feather";
 import Progress from "./Progress";
 import * as mmb from "music-metadata-browser";
+import { AudiosContext } from './../contexts/AudiosContext';
+import defaultCover from './../resources/default-cover.jpg';
 
 function Player() {
-    const audioList = [
-        "http://127.0.0.1:5000/api/audio-file/audios/audio1.mp3",
-        "http://127.0.0.1:5000/api/audio-file/audios/audio2.mp3",
-        "http://127.0.0.1:5000/api/audio-file/audios/audio3.m4a",
-    ];
-
-    const [currentAudio, setCurrentAudio] = useState(0);
-
+    const { audios, playingTrack, playingTrackIndex, setPlayingTrackIndex, hidePlaylist, setHidePlaylist } = React.useContext(AudiosContext);
     const playerRef = useRef();
     const [duration, setDuration] = useState(0);
     const [curTime, setCurTime] = useState(0);
@@ -29,6 +24,7 @@ function Player() {
     const play = () => {
         playerRef.current.play();
         setPlaying(true);
+        
     };
 
     const pause = () => {
@@ -36,12 +32,28 @@ function Player() {
         setPlaying(false);
     };
 
+    const playNextTrack = () => {
+        if (playingTrackIndex === audios.length-1) {
+            setPlayingTrackIndex(0);
+        } else {
+            setPlayingTrackIndex(playingTrackIndex + 1);
+        }
+    };
+
+    const playPreviousTrack = () => {
+        if (playingTrackIndex === 0) {
+            setPlayingTrackIndex(audios.length - 1);
+        } else {
+            setPlayingTrackIndex(playingTrackIndex - 1);
+        }
+    };
+
     useEffect(() => {
         playing ? play() : pause();
     }, [playing]);
 
     useEffect(() => {
-        fetch(audioList[currentAudio])
+        fetch(playingTrack)
 		    .then(response => response.body)
 		    .then(stream => {
 			    mmb.parseReadableStream(stream)
@@ -59,14 +71,14 @@ function Player() {
                         }
                     });
         });
-    }, [currentAudio]);
+        play();
+    }, [playingTrack]);
 
     return (
         <div className="rounded-lg overflow-hidden">
-            <img className="w-64 h-64" src={cover} alt="" />
-            <div className=" bg-gray-800 w-64 p-4">
-                <audio ref={playerRef} onTimeUpdate={updatetime} loop="loop">
-                    <source src={audioList[currentAudio]} type="audio/mpeg"></source>
+            <img className="w-64 h-64 rounded-t-lg" src={playingTrack === "" ? defaultCover : cover} alt="" />
+            <div className=" bg-gray-800 w-64 p-4 rounded-b-lg">
+                <audio id="playlist" src={playingTrack} ref={playerRef} onTimeUpdate={updatetime} onEnded={playNextTrack} controls hidden>
                 </audio>
                 <div className="name mb-1 text-white font-thin">
                     {title}
@@ -77,11 +89,16 @@ function Player() {
                 </div>
                 <Progress cur={curTime} total={duration} />
                 <div className="controllers flex justify-center">
+                    <Icon.Music 
+                        className="cursor-pointer m-2" 
+                        size={40} 
+                        color="white" 
+                    />
                     <Icon.ArrowLeftCircle 
                         className="cursor-pointer m-2" 
                         size={40} 
                         color="white" 
-                        onClick={() => { currentAudio === 0 ? setCurrentAudio(audioList.length -1) : setCurrentAudio(currentAudio-1); }}
+                        onClick={playPreviousTrack}
                     />
                     {playing ? (
                         <Icon.PauseCircle
@@ -99,10 +116,16 @@ function Player() {
                         />
                     )}
                     <Icon.ArrowRightCircle
-                        className="cursor-white m-2"
+                        className="cursor-pointer m-2"
                         size={40}
                         color="white"
-                        onClick={() => { currentAudio === audioList.length -1 ? setCurrentAudio(0) : setCurrentAudio(currentAudio+1); }}
+                        onClick={playNextTrack}
+                    />
+                    <Icon.List 
+                        className="cursor-pointer m-2" 
+                        size={40} 
+                        color="white" 
+                        onClick={() => setHidePlaylist(!hidePlaylist)}
                     />
                 </div>
             </div>

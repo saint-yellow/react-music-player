@@ -13,8 +13,8 @@ function Progress({ cur, total }) {
                 <div className="point cursor-pointer rounded-full bg-red-400 h-1 w-1"></div>
             </div>
             <div className="time-group font-thin text-xs text-gray-600 flex justify-between">
-                <div>{cur}s</div>
-                <div>{total}s</div>
+                <div>{Math.floor(cur / 60) < 10 ? "0" + Math.floor(cur / 60) : Math.floor(cur / 60)}:{(cur % 60) < 10 ? "0" + (cur % 60) : (cur % 60)}</div>
+                <div>{Math.floor(total / 60) < 10 ? "0" + Math.floor(total / 60) : Math.floor(total / 60)}:{(total % 60) < 10 ? "0" + (total % 60) : (total % 60)}</div>
             </div>
         </div>
     );
