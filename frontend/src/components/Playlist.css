@@ -1,3 +1,11 @@
 .playlist {
     transition: linear 1.0s ease-in-out;
 }
+
+.track:hover {
+    transform: scale(1.1);
+}
+
+.track>.title:hover, .track>.artist:hover {
+    color: yellow;
+}

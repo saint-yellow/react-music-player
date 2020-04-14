@@ -32,7 +32,7 @@ def audios():
                 "url": f["url"],
                 "artist": f["file"].tag.artist,
                 "title": f["file"].tag.title,
-                "ablum": f["file"].tag.album,
+                "album": f["file"].tag.album,
                 "year": f["file"].tag.getBestDate().year,
                 "genre": f["file"].tag.genre.name
 
