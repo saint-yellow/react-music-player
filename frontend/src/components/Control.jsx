@@ -40,7 +40,7 @@ export default class Control extends React.Component {
         return (
             <div className="rounded-lg overflow-hidden">
                 <img className="w-64 h-64 rounded-t-lg" src={this.props.coverImage} alt="" />
-                <Progress cur={this.state.currentTime} total={this.state.duration} />
+                <Progress currentTime={this.state.currentTime} duration={this.state.duration} />
                 <div className=" bg-gray-800 w-64 p-4 rounded-b-lg">
                     <audio 
                         id="playlist" 
@@ -60,11 +60,6 @@ export default class Control extends React.Component {
                         {this.props.audio.artist}
                     </div>
                     <div className="controllers flex justify-center">
-                        <Icon.Music 
-                            className="cursor-pointer m-2" 
-                            size={40} 
-                            color="white" 
-                        />
                         <Icon.ArrowLeftCircle 
                             className="cursor-pointer m-2" 
                             size={40} 
@@ -91,11 +86,6 @@ export default class Control extends React.Component {
                             size={40}
                             color="white"
                             onClick={playNextAudio}
-                        />
-                        <Icon.List 
-                            className="cursor-pointer m-2" 
-                            size={40} 
-                            color="white" 
                         />
                     </div>
                 </div>
