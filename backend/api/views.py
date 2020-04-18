@@ -3,12 +3,6 @@ import eyed3
 
 from flask import Flask, send_from_directory, url_for, current_app
 from . import api
-from ..config import base_directory
-
-
-@api.route("/")
-def index():
-    return 'Saint-Yellow'
 
 
 @api.route("/audio-file/<path:filename>")
