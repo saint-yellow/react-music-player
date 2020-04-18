@@ -19,7 +19,7 @@
 - [使用Flask蓝本的方式组织代码](./backend/api/__init__.py)
 - [使用eyed3库解析音频文件的元数据](./backend/api/views.py)
 - 音频文件及其元数据作为Web API响应的组成部分
-![demo3](./readme/demo3.png)
+![api](./readme/api.png)
 - [requirements](./backend/requirements.txt)
 
 ## 演示
