@@ -1,7 +1,8 @@
 import os
-import eyed3
 
-from flask import Flask, send_from_directory, url_for, current_app
+import eyed3
+from flask import current_app, jsonify, send_from_directory, url_for
+
 from . import api
 
 
@@ -20,7 +21,7 @@ def audios():
             "file": eyed3.load(os.path.join(audio_folder, f)) 
         } for f in os.listdir(audio_folder)
     ]
-    return {
+    return jsonify({
         "audios": [
             {
                 "url": f["url"],
@@ -32,4 +33,4 @@ def audios():
 
             } for f in audio_files
         ]
-    }
+    })

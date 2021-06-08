@@ -6,3 +6,5 @@ class Config(object):
     ROOT_PATH = base_directory
     AUDIO_FOLDER_PATH = os.path.join(base_directory, 'audios')
     AVALIABLE_AUDIO_FORMATS = ['mp3']
+    JSON_AS_ASCII = False
+    JSONIFY_MIMETYPE = 'application/json;charset=utf-8'
